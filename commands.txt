@@ -1,0 +1,32 @@
+
+convert output.pgm output.png
+ctrl + R   to command history
+//gcc -Iinclude demo/main.c src/canvas.c -o test1
+gcc -c src/canvas.c -Iinclude -o canvas.o
+ar rcs canvas.a canvas.o
+gcc -c demo/main.c -Iinclude -o main.o
+
+[  Compiled canvas.c into canvas.o
+Archived it into canvas.a (a static library)
+Compiled main.c into main.o ]
+
+gcc main.o -L. -l:canvas.a -lm -o demo.exe  = to link everything together to an exe
+./demo.exe  = run
+
+
+
+**chatGPT**
+ar rcs libmymath.a mymath.o
+Compile with your static library:
+gcc main.c -L. -lmymath -o test_program
+-L. tells the compiler to look in the current directory for libraries.
+
+-lmymath links with libmymath.a.
+Run it:
+./test_program
+
+mysy shell:
+MSYS2 UCRT64 or MSYS2 MinGW64 from the Start Menu.
+make
+$ ./build/demo.exe = run 
+make clean

@@ -11,7 +11,7 @@ typedef struct {
 } canvas_t;
 
 // Create and destroy canvas
-canvas_t* canvas_create(size_t width, size_t height);
+canvas_t *canvas_create(size_t width, size_t height);
 void canvas_destroy(canvas_t* canvas);
 
 // Set a pixel with floating-point coordinates and intensity

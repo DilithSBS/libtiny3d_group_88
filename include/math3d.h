@@ -28,11 +28,11 @@ mat4 mat4_identity();
 mat4 mat4_translate(float tx, float ty, float tz);
 mat4 mat4_scale(float sx, float sy, float sz);
 mat4 mat4_rotate_xyz(float rx, float ry, float rz);
-mat4 mat4_frustum(float left, float right, float bottom, float top, float near, float far);
+mat4 mat4_frustum_asymetric(float left, float right, float bottom, float top, float near, float far);
 mat4 mat4_mul(mat4 a, mat4 b);
 vec4_t mat4_mul_vec4(mat4 m, vec4_t v);  // Add this for vec4 transformation
 
-// ------------------ Vector Utility Functions ------------------
+// ------------------ Vector Functions ------------------
 
 void updateSph(vec3_t *v);                  // Cartesian → Spherical
 void updateCar(vec3_t *v);                  // Spherical → Cartesian

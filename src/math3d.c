@@ -82,10 +82,6 @@ vec3_t vec3_slerp(vec3_t a, vec3_t b, double t) {
 
     // Dot product of the two vectors
     double dot_prod = a.x * b.x + a.y * b.y + a.z * b.z;
-    
-    // Clamp dot to avoid NaNs due to precision errors
-    //if (dot_prod > 1.0) dot_prod = 1.0;
-    //if (dot_prod < -1.0) dot_prod = -1.0;
 
     double alpha = acos(dot_prod);       // angle between a and b
     double sinAlpha = sin(alpha);
@@ -104,18 +100,22 @@ vec3_t vec3_slerp(vec3_t a, vec3_t b, double t) {
 
 }
 
+// Multiplication of 3 dimensional vector by a scalar
 vec3_t vec3_scale(vec3_t v, float s) {
     return (vec3_t){ v.x * s, v.y * s, v.z * s };
 }
 
+// Add two 3 dimensional vectors
 vec3_t vec3_add(vec3_t u, vec3_t v) {
     return (vec3_t){ u.x + v.x, u.y + v.y, u.z + v.z};   
 }
 
+// Substract two 3 dimensional vectors
 vec3_t vec3_sub(vec3_t u, vec3_t v) {
     return (vec3_t){ u.x - v.x, u.y - v.y, u.z - v.z};   
 }
 
+// Dot product of two 3 dimensional vectors
 float vec3_dot(vec3_t u, vec3_t v) {
     return (float)((u.x * v.x) + (u.y * v.y) + (u.z * v.z));   
 }
@@ -127,7 +127,7 @@ mat4 mat4_identity() {
     return result;
 }
 
-// 
+// Translation matrix 
 mat4 mat4_translate(float tx, float ty, float tz) {
     mat4 result = mat4_identity();
     result.element[12] = tx;
@@ -136,6 +136,7 @@ mat4 mat4_translate(float tx, float ty, float tz) {
     return result;
 }
 
+// Scale matrix
 mat4 mat4_scale(float sx, float sy, float sz) {
     mat4 result = mat4_identity();
     result.element[0] = sx;
@@ -144,6 +145,7 @@ mat4 mat4_scale(float sx, float sy, float sz) {
     return result;
 }
 
+// Rotation matrix
 mat4 mat4_rotate_xyz(float rx, float ry, float rz) {
     float rx_rad = degToRad(rx);
     float ry_rad = degToRad(ry);
@@ -153,12 +155,14 @@ mat4 mat4_rotate_xyz(float rx, float ry, float rz) {
     float sin_y = sinf(ry_rad), cos_y = cosf(ry_rad);
     float sin_z = sinf(rz_rad), cos_z = cosf(rz_rad);
 
+    // Rotation matrix around x axis
     mat4 rxm = mat4_identity();
     rxm.element[5] = cos_x;
     rxm.element[6] = sin_x;
     rxm.element[9] = -sin_x;
     rxm.element[10] = cos_x;
 
+    // Rotation matrix
     mat4 rym = mat4_identity();
     rym.element[0] = cos_y;
     rym.element[2] = -sin_y;
@@ -174,7 +178,7 @@ mat4 mat4_rotate_xyz(float rx, float ry, float rz) {
     return mat4_mul(rzm, mat4_mul(rym, rxm));
 }
 
-mat4 mat4_frustum(float left, float right, float bottom, float top, float near, float far) {
+mat4 mat4_frustum_asymetric(float left, float right, float bottom, float top, float near, float far) {
     mat4 result = {0};
     result.element[0] = (2.0f * near) / (right - left);
     result.element[5] = (2.0f * near) / (top - bottom);

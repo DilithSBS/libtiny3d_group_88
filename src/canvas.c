@@ -1,28 +1,29 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "canvas.h"
+#include "../include/canvas.h"
 
-canvas_t* canvas_create(size_t width, size_t height) {
-    canvas_t* canvas = malloc(sizeof(canvas_t));
+canvas_t *canvas_create(size_t width, size_t height) {
+    canvas_t *canvas = malloc(sizeof(canvas_t));
+
     if (!canvas) return NULL;
 
+    // Sores height and width in the canvas structure
     canvas->width = width;
     canvas->height = height;
 
+    // Allocates memory for a 1D array of row pointers
     canvas->pixels = malloc(height * sizeof(float*));
     if (!canvas->pixels) {
-        free(canvas);
+        free(canvas); 
         return NULL;
     }
 
+    // Looping through each row of pixels and initializing them to zeros (black colour)
     for (size_t y = 0; y < height; y++) {
-        canvas->pixels[y] = calloc(width, sizeof(float));
+        canvas->pixels[y] = calloc(width, sizeof(float)); // initialized to 0.0
         if (!canvas->pixels[y]) {
-            for (size_t j = 0; j < y; j++) {
-                free(canvas->pixels[j]);
-            }
-            free(canvas->pixels);
+            for (size_t j = 0; j < y; j++) free(canvas->pixels[j]);
+            free(canvas->pixels);           // Free the memory used by canvas
             free(canvas);
             return NULL;
         }
@@ -32,70 +33,73 @@ canvas_t* canvas_create(size_t width, size_t height) {
 }
 
 void canvas_destroy(canvas_t* canvas) {
+
     if (!canvas) return;
+
     for (size_t y = 0; y < canvas->height; y++) {
-        free(canvas->pixels[y]);
+        free(canvas->pixels[y]);        // Free each row of the canvas
     }
+    // Free the array of row pointers and the canvas struct
     free(canvas->pixels);
     free(canvas);
 }
 
-static float clamp(float value, float min, float max) {
-    if (value < min) return min;
-    if (value > max) return max;
-    return value;
-}
+void set_pixel_f(canvas_t* canvas, float x, float y, float intensity) {
 
-void set_pixel_f(canvas_t* canvas, float x, float y, const brush_t* brush) {
-    if (!canvas || !brush) return;
+    if (!canvas) return;
 
+    // Find the top left integer pixel of the canvas
     int x0 = (int)floorf(x);
     int y0 = (int)floorf(y);
+    
+    // Calculate the distance to the point from (x0, y0)
     float dx = x - x0;
     float dy = y - y0;
 
-    float w00 = (1 - dx) * (1 - dy);
-    float w10 = dx * (1 - dy);
-    float w01 = (1 - dx) * dy;
-    float w11 = dx * dy;
+    // Compute weights of the 4 surrounding pixels
+    float w00 = (1 - dx) * (1 - dy);        // Top left
+    float w10 = dx * (1 - dy);              // Top right
+    float w01 = (1 - dx) * dy;              // Bottom left
+    float w11 = dx * dy;                    // Bottom right
 
-    float intensity = clamp(brush->intensity, 0.0f, 1.0f);
-
+    // Apply brightness to each neighbor pixel if they are within canvas bounds
     if (x0 >= 0 && y0 >= 0 && x0 < (int)canvas->width && y0 < (int)canvas->height)
         canvas->pixels[y0][x0] += w00 * intensity;
 
-    if (x0 + 1 < (int)canvas->width)
+    if (x0 + 1 >= 0 && y0 >= 0 && x0 + 1 < (int)canvas->width && y0 < (int)canvas->height)
         canvas->pixels[y0][x0 + 1] += w10 * intensity;
 
-    if (y0 + 1 < (int)canvas->height)
+    if (x0 >= 0 && y0 + 1 >= 0 && x0 < (int)canvas->width && y0 + 1 < (int)canvas->height)
         canvas->pixels[y0 + 1][x0] += w01 * intensity;
 
-    if (x0 + 1 < (int)canvas->width && y0 + 1 < (int)canvas->height)
+    if (x0 + 1 >= 0 && y0 + 1 >= 0 && x0 + 1 < (int)canvas->width && y0 + 1 < (int)canvas->height)
         canvas->pixels[y0 + 1][x0 + 1] += w11 * intensity;
 }
 
-void draw_line_f(canvas_t* canvas, float x0, float y0, float x1, float y1, const brush_t* brush) {
-    if (!canvas || !brush) return;
+void draw_line_f(canvas_t* canvas, float x0, float y0, float x1, float y1, float thickness) {
+    if (!canvas) return;
 
     float dx = x1 - x0;
     float dy = y1 - y0;
     float length = sqrtf(dx * dx + dy * dy);
+
     if (length == 0.0f) return;
 
     float step_x = dx / length;
     float step_y = dy / length;
 
-    float tx = -step_y;
-    float ty = step_x;
+    float tx = -step_y;  // perpendicular unit vector x
+    float ty = step_x;   // perpendicular unit vector y
 
     for (float i = 0; i < length; i += 0.5f) {
         float px = x0 + step_x * i;
         float py = y0 + step_y * i;
 
-        for (float t = -brush->thickness / 2.0f; t <= brush->thickness / 2.0f; t += 0.5f) {
+        // draw thickness by drawing perpendicular mini-lines
+        for (float t = -thickness / 2.0f; t <= thickness / 2.0f; t += 0.5f) {
             float fx = px + tx * t;
             float fy = py + ty * t;
-            set_pixel_f(canvas, fx, fy, brush);
+            set_pixel_f(canvas, fx, fy, 1.0f);
         }
     }
 }

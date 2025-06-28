@@ -1,20 +1,23 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include "../include/canvas.h"
 
 canvas_t *canvas_create(size_t width, size_t height) {
     canvas_t *canvas = malloc(sizeof(canvas_t));
+
     if (!canvas) return NULL;
 
+    // Assigning height and width to the canvas
     canvas->width = width;
     canvas->height = height;
 
+    // 
     canvas->pixels = malloc(height * sizeof(float*));
     if (!canvas->pixels) {
-        free(canvas);
+        free(canvas); 
         return NULL;
     }
+
 
     for (size_t y = 0; y < height; y++) {
         canvas->pixels[y] = calloc(width, sizeof(float)); // initialized to 0.0
@@ -30,26 +33,24 @@ canvas_t *canvas_create(size_t width, size_t height) {
 }
 
 void canvas_destroy(canvas_t* canvas) {
+
     if (!canvas) return;
+
     for (size_t y = 0; y < canvas->height; y++) {
         free(canvas->pixels[y]);
     }
+
     free(canvas->pixels);
     free(canvas);
 }
 
-// Clamp helper
-static float clamp(float value, float min, float max) {
-    if (value < min) return min;
-    if (value > max) return max;
-    return value;
-}
-
 void set_pixel_f(canvas_t* canvas, float x, float y, float intensity) {
+
     if (!canvas) return;
 
     int x0 = (int)floorf(x);
     int y0 = (int)floorf(y);
+    
     float dx = x - x0;
     float dy = y - y0;
 
@@ -58,6 +59,7 @@ void set_pixel_f(canvas_t* canvas, float x, float y, float intensity) {
     float w01 = (1 - dx) * dy;
     float w11 = dx * dy;
 
+    // 
     if (x0 >= 0 && y0 >= 0 && x0 < (int)canvas->width && y0 < (int)canvas->height)
         canvas->pixels[y0][x0] += w00 * intensity;
 

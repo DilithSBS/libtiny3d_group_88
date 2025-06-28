@@ -1,9 +1,9 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
-#include <stddef.h> // for size_t
+#include <stddef.h> // for size_t (unsigned long long)
 
-// Define the canvas structure
+// Declare the canvas structure
 typedef struct {
     size_t width;
     size_t height;

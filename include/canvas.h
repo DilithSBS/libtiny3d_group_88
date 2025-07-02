@@ -20,4 +20,7 @@ void set_pixel_f(canvas_t* canvas, float x, float y, float intensity);
 // Draw a floating-point line with thickness using DDA
 void draw_line_f(canvas_t* canvas, float x0, float y0, float x1, float y1, float thickness);
 
+// Save output to a .pgm file
+void canvas_save_pgm(canvas_t *canvas, const char *filename);
+
 #endif // CANVAS_H

@@ -1,45 +1,48 @@
-# === Directories ===
-INCLUDE_DIR = include
+# Compiler and flags
+CC = gcc
+CFLAGS = -Wall -Wextra -std=c99 -Iinclude -O2 -g
+
+# Directories
 SRC_DIR = src
+INC_DIR = include
 DEMO_DIR = demo
 BUILD_DIR = build
 
-# === Compiler ===
-CC = gcc
-CFLAGS = -std=c99 -Wall -Wextra -I$(INCLUDE_DIR)
+# Output files
+LIB_NAME = libtiny3d.a
+LIB_PATH = $(BUILD_DIR)/$(LIB_NAME)
+DEMO_BIN = $(BUILD_DIR)/demo
 
-# === Sources and Objects ===
-SRC_FILES = $(SRC_DIR)/canvas.c
-OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC_FILES))
+# Source files
+SRCS = $(wildcard $(SRC_DIR)/*.c)
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
 
-# === Demo Program ===
+# Demo files
 DEMO_SRC = $(DEMO_DIR)/main.c
-DEMO_OBJ = $(BUILD_DIR)/main.o
-DEMO_BIN = $(BUILD_DIR)/demo.exe
 
-# === Targets ===
-all: $(DEMO_BIN)
+# Default target
+all: $(LIB_PATH) $(DEMO_BIN)
 
-# Compile source files into build/
+# Build static library
+$(LIB_PATH): $(OBJS)
+	@mkdir -p $(BUILD_DIR)
+	ar rcs $@ $^
+
+# Compile object files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Compile main.c into build/
-$(BUILD_DIR)/main.o: $(DEMO_SRC)
-	@mkdir -p $(BUILD_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+# Build demo
+$(DEMO_BIN): $(DEMO_SRC) $(LIB_PATH)
+	$(CC) $(CFLAGS) $< -L$(BUILD_DIR) -ltiny3d -o $@
 
-# Link everything into the demo binary
-$(DEMO_BIN): $(OBJ_FILES) $(DEMO_OBJ)
-	$(CC) $(CFLAGS) $^ -o $@
+# Clean build files
+clean:
+	rm -rf $(BUILD_DIR)
 
-# Run the program
-run: $(DEMO_BIN)
+# Run demo
+run: all
 	./$(DEMO_BIN)
 
-# Clean the build
-clean:
-	rm -rf $(BUILD_DIR)/*.o $(DEMO_BIN) output.pgm
-
-.PHONY: all run clean
+.PHONY: all clean run

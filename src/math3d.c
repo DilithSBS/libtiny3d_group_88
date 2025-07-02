@@ -98,6 +98,12 @@ vec3_t vec3_slerp(vec3_t a, vec3_t b, double t) {
     double w1 = sin((1.0 - t) * alpha) / sinAlpha;
     double w2 = sin(t * alpha) / sinAlpha;
 
+    vec3_t v;
+    v.x = w1 * a.x + w2 * b.x;
+    v.y = w1 * a.y + w2 * b.y;
+    v.z = w1 * a.z + w2 * b.z;
+    return vec3_normalize_fast(v);
+
 }
 
 // Multiplication of 3 dimensional vector by a scalar

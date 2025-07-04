@@ -62,7 +62,7 @@ void render_wireframe(canvas_t* canvas, vec3_t* vertices, int vertex_count, int 
             draw_line_f(canvas, p0.x, p0.y, p1.x, p1.y, 1.0f); // thickness = 1.0
         }
     }
-
+    
     free(projected);
 }
 

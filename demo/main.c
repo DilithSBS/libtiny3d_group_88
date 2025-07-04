@@ -10,85 +10,91 @@
 #define PI 3.14159265f
 #define FRAME_COUNT 100         // Frame count to be created
 
-// Pseudo-code
-void generate_soccer_ball(vec3_t** out_vertices, int* out_vcount, int (**out_edges)[2], int* out_ecount) {
-    // For simplicity, just generate a cube or icosahedron here
-    // Real truncated icosahedron would need ~60 vertices and 90 edges
+typedef struct {
+    int a, b;
+} edge_t;
 
-    *out_vcount = 60;
-    *out_ecount = 90;
-
-    // Allocate memory for vertices
-    *out_vertices = malloc(sizeof(vec3_t) * (*out_vcount));
-
-    // Allocate memory for edges
-    *out_edges = malloc(sizeof(int[2]) * (*out_ecount));
-   
-    vec3_t soccer_ball_vertices[60] = {
-        { -0.979432f, 0.000000f,  -0.201774f },
-        { -0.979432f, 0.000000f,   0.201774f },
-        { -0.854729f, -0.326477f, -0.403548f },
-        { -0.854729f, -0.326477f,  0.403548f },
-        { -0.854729f,  0.326477f, -0.403548f },
-        { -0.854729f,  0.326477f,  0.403548f },
-        { -0.403548f, -0.854729f, -0.326477f },
-        { -0.403548f, -0.854729f,  0.326477f },
-        { -0.403548f,  0.854729f, -0.326477f },
-        { -0.403548f,  0.854729f,  0.326477f },
-        { -0.326477f, -0.403548f, -0.854729f },
-        { -0.326477f, -0.403548f,  0.854729f },
-        { -0.326477f,  0.403548f, -0.854729f },
-        { -0.326477f,  0.403548f,  0.854729f },
-        { -0.201774f, -0.979432f,  0.000000f },
-        { -0.201774f,  0.979432f,  0.000000f },
-        {  0.000000f, -0.201774f, -0.979432f },
-        {  0.000000f, -0.201774f,  0.979432f },
-        {  0.000000f,  0.201774f, -0.979432f },
-        {  0.000000f,  0.201774f,  0.979432f },
-        {  0.201774f, -0.979432f,  0.000000f },
-        {  0.201774f,  0.979432f,  0.000000f },
-        {  0.326477f, -0.403548f, -0.854729f },
-        {  0.326477f, -0.403548f,  0.854729f },
-        {  0.326477f,  0.403548f, -0.854729f },
-        {  0.326477f,  0.403548f,  0.854729f },
-        {  0.403548f, -0.854729f, -0.326477f },
-        {  0.403548f, -0.854729f,  0.326477f },
-        {  0.403548f,  0.854729f, -0.326477f },
-        {  0.403548f,  0.854729f,  0.326477f },
-        {  0.854729f, -0.326477f, -0.403548f },
-        {  0.854729f, -0.326477f,  0.403548f },
-        {  0.854729f,  0.326477f, -0.403548f },
-        {  0.854729f,  0.326477f,  0.403548f },
-        {  0.979432f,  0.000000f, -0.201774f },
-        {  0.979432f,  0.000000f,  0.201774f },
-    };
-
-    int soccer_ball_edges[90][2] = {
-        { 0, 1 },   { 1, 2 },   { 2, 3 },   { 3, 4 },   { 4, 5 },
-        { 5, 6 },   { 6, 7 },   { 7, 8 },   { 8, 9 },   { 9, 10 },
-        { 10, 11 }, { 11, 12 }, { 12, 13 }, { 13, 14 }, { 14, 15 },
-        { 15, 16 }, { 16, 17 }, { 17, 18 }, { 18, 19 }, { 19, 20 },
-        { 20, 21 }, { 21, 22 }, { 22, 23 }, { 23, 24 }, { 24, 25 },
-        { 25, 26 }, { 26, 27 }, { 27, 28 }, { 28, 29 }, { 29, 30 },
-        { 30, 31 }, { 31, 32 }, { 32, 33 }, { 33, 34 }, { 34, 35 },
-        { 35, 0 },  { 1, 36 },  { 2, 37 },  { 3, 38 },  { 4, 39 },
-        { 5, 40 },  { 6, 41 },  { 7, 42 },  { 8, 43 },  { 9, 44 },
-        { 10, 45 }, { 11, 46 }, { 12, 47 }, { 13, 48 }, { 14, 49 },
-        { 15, 50 }, { 16, 51 }, { 17, 52 }, { 18, 53 }, { 19, 54 },
-        { 20, 55 }, { 21, 56 }, { 22, 57 }, { 23, 58 }, { 24, 59 },
-        { 25, 0 },  { 26, 1 },  { 27, 2 },  { 28, 3 },  { 29, 4 },
-        { 30, 5 },  { 31, 6 },  { 32, 7 },  { 33, 8 },  { 34, 9 },
-        { 35, 10 }, { 36, 11 }, { 37, 12 }, { 38, 13 }, { 39, 14 },
-        { 40, 15 }, { 41, 16 }, { 42, 17 }, { 43, 18 }, { 44, 19 },
-        { 45, 20 }, { 46, 21 }, { 47, 22 }, { 48, 23 }, { 49, 24 },
-        { 50, 25 }, { 51, 26 }, { 52, 27 }, { 53, 28 }, { 54, 29 }
-    };
-
-    for (int i = 0; i < *out_vcount; i++) (*out_vertices)[i] = soccer_ball_vertices[i];
-    for (int i = 0; i < *out_ecount; i++) (*out_edges)[i][0] = soccer_ball_edges[i][0], (*out_edges)[i][1] = soccer_ball_edges[i][1];
-
+bool edge_equals(edge_t e1, edge_t e2) {
+    return (e1.a == e2.a && e1.b == e2.b) || (e1.a == e2.b && e1.b == e2.a);
 }
 
+bool edge_exists(edge_t* edges, int count, edge_t new_edge) {
+    for (int i = 0; i < count; i++) {
+        if (edge_equals(edges[i], new_edge)) return true;
+    }
+    return false;
+}
+
+void build_edges_from_faces(int faces[][3], int face_count, edge_t** out_edges, int* out_edge_count) {
+    int capacity = face_count * 3;
+    edge_t* edges = malloc(sizeof(edge_t) * capacity);
+    int count = 0;
+
+    for (int i = 0; i < face_count; i++) {
+        int* f = faces[i];
+        edge_t e1 = {f[0], f[1]};
+        edge_t e2 = {f[1], f[2]};
+        edge_t e3 = {f[2], f[0]};
+
+        if (!edge_exists(edges, count, e1)) edges[count++] = e1;
+        if (!edge_exists(edges, count, e2)) edges[count++] = e2;
+        if (!edge_exists(edges, count, e3)) edges[count++] = e3;
+    }
+
+    *out_edges = edges;
+    *out_edge_count = count;
+}
+
+void generate_soccer_ball(vec3_t** out_vertices, int* out_vcount, int (**out_edges)[2], int* out_ecount) {
+    double sqrt5 = sqrt(5.0);
+    float C0 = 3 * (sqrt5 - 1) / 4.0f;
+    float C1 = 9 * (9 + sqrt5) / 76.0f;
+    float C2 = 9 * (7 + 5 * sqrt5) / 76.0f;
+    float C3 = 3 * (1 + sqrt5) / 4.0f;
+
+    vec3_t vertices[] = {
+        { 0, C0, C3}, { 0, C0, -C3}, { 0, -C0, C3}, { 0, -C0, -C3},
+        { C3, 0, C0}, { C3, 0, -C0}, {-C3, 0, C0}, {-C3, 0, -C0},
+        { C0, C3, 0}, { C0, -C3, 0}, {-C0, C3, 0}, {-C0, -C3, 0},
+        { C1, 0, C2}, { C1, 0, -C2}, {-C1, 0, C2}, {-C1, 0, -C2},
+        { C2, C1, 0}, { C2, -C1, 0}, {-C2, C1, 0}, {-C2, -C1, 0},
+        { 0, C2, C1}, { 0, C2, -C1}, { 0, -C2, C1}, { 0, -C2, -C1},
+        { 1.5, 1.5, 1.5}, { 1.5, 1.5, -1.5}, { 1.5, -1.5, 1.5}, { 1.5, -1.5, -1.5},
+        {-1.5, 1.5, 1.5}, {-1.5, 1.5, -1.5}, {-1.5, -1.5, 1.5}, {-1.5, -1.5, -1.5}
+    };
+
+    static int faces[60][3] = {
+        {12,0,2}, {12,2,26}, {12,26,4}, {12,4,24}, {12,24,0},
+        {13,3,1}, {13,1,25}, {13,25,5}, {13,5,27}, {13,27,3},
+        {14,2,0}, {14,0,28}, {14,28,6}, {14,6,30}, {14,30,2},
+        {15,1,3}, {15,3,31}, {15,31,7}, {15,7,29}, {15,29,1},
+        {16,4,5}, {16,5,25}, {16,25,8}, {16,8,24}, {16,24,4},
+        {17,5,4}, {17,4,26}, {17,26,9}, {17,9,27}, {17,27,5},
+        {18,7,6}, {18,6,28}, {18,28,10}, {18,10,29}, {18,29,7},
+        {19,6,7}, {19,7,31}, {19,31,11}, {19,11,30}, {19,30,6},
+        {20,8,10}, {20,10,28}, {20,28,0}, {20,0,24}, {20,24,8},
+        {21,10,8}, {21,8,25}, {21,25,1}, {21,1,29}, {21,29,10},
+        {22,11,9}, {22,9,26}, {22,26,2}, {22,2,30}, {22,30,11},
+        {23,9,11}, {23,11,31}, {23,31,3}, {23,3,27}, {23,27,9}
+    };
+
+    edge_t* edges;
+    int edge_count;
+    build_edges_from_faces(faces, 60, &edges, &edge_count);
+
+    int (*edge_array)[2] = malloc(sizeof(int[2]) * edge_count);
+    for (int i = 0; i < edge_count; i++) {
+        edge_array[i][0] = edges[i].a;
+        edge_array[i][1] = edges[i].b;
+    }
+
+    *out_vertices = vertices;
+    *out_vcount = sizeof(vertices) / sizeof(vec3_t);
+    *out_edges = edge_array;
+    *out_ecount = edge_count;
+
+    free(edges);
+}
 // Simple cube for testing wireframe
 // vec3_t cube_vertices[] = {
 //     {-1, -1, -1}, {1, -1, -1}, {1, 1, -1}, {-1, 1, -1},
@@ -102,7 +108,7 @@ void generate_soccer_ball(vec3_t** out_vertices, int* out_vcount, int (**out_edg
 // };
 
 vec3_t light_dirs[] = {
-    {1, 1, -1}, {-1, 1, -0.5}
+    {1, 1, 1}, {-1, 1, -0.5}
 };
 
 vec3_t bezier_p0 = { -1.5, 0, -5 };
@@ -141,9 +147,10 @@ int main() {
         vec3_t anim_pos = vec3_bezier(bezier_p0, bezier_p1, bezier_p2, bezier_p3, time);
 
         // Transformation matrices
+        mat4 scale = mat4_scale(2.0f, 2.0f, 2.0f);
         mat4 rotate = mat4_rotate_xyz(t, t * 0.5f, 0.0f);
         mat4 translate = mat4_translate(anim_pos.x, anim_pos.y, anim_pos.z);
-        mat4 model = mat4_mul(translate, rotate);
+        mat4 model = mat4_mul(translate, mat4_mul(rotate, scale));
 
         mat4 view = mat4_identity(); // no custom camera yet
         mat4 proj = mat4_frustum_asymetric(-1, 1, -1, 1, 1.0f, 10.0f);

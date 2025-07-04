@@ -64,4 +64,19 @@ mat4 mat4_mul(mat4 a, mat4 b);
 // Multiply 4x4 matrix by a 4D vector
 vec4_t mat4_mul_vec4(mat4 m, vec4_t v);  // For vec4 transformation
 
+
+//--------------------Quaternion rotation structure-----------------//
+// strore 4D vectors
+typedef struct {
+    float x, y, z, w;
+} quat_t;
+
+//--------------------Quaternion rotation functions-----------------//
+
+quat_t quat_from_axis_angle(vec3_t axis, float angle_rad);
+quat_t quat_normalize(quat_t q);
+quat_t quat_slerp(quat_t a, quat_t b, float t);
+mat4 quat_to_mat4(quat_t q);
+
+
 #endif

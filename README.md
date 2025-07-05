@@ -33,10 +33,11 @@ ___
     │ │ │ └── test_math.png 
     │ │ │
     │ │ └── test_pipeline/
-    │ │   ├── frame_*.pgm
+    │ │   ├── test_pipeline_*.pgm
     │ │   ├── test_pipeline.gif
     │ │   └── test_pipeline.mp4
     │ │ 
+    │ ├── soccer.obj
     │ ├── test_canvas.c
     │ ├── test_math.c
     │ └── test_pipeline.c
@@ -53,6 +54,7 @@ ___
     │ ├── demo
     │ └── frames/
     │   ├── frames_*.pgm
+    │   ├── main.mp4
     │   └── main.gif
     │
     ├── documentation/ # Report and references

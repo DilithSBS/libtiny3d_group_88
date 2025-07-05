@@ -1,6 +1,6 @@
 # libtiny3d
 ## 3D Software Renderer Library
-### CO1020 - C Project - Semester 2
+### CO1020 - C Project - E/23 - Semester 2
 ___
 ### Created by 
         Group 88

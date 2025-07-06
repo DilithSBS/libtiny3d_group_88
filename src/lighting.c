@@ -6,7 +6,7 @@ float compute_line_intensity(vec3_t p1, vec3_t p2, vec3_t light_dir) {
     vec3_t edge_dir = vec3_sub(p2, p1);
     vec3_t norm_edge = vec3_normalize_fast(edge_dir);
     vec3_t norm_light = vec3_normalize_fast(light_dir);
-
+ 
     float dot_product = vec3_dot(norm_edge, norm_light);
     return fmaxf(0.0f, dot_product);  // Clamp to [0, 1]
 }

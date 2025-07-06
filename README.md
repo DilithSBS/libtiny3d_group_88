@@ -1,12 +1,13 @@
 # libtiny3d
 ## 3D Software Renderer Library
 ### CO1020 - C Project - E/23 - Semester 2
-___
+_________________________________________________________________________
 ### Created by 
         Group 88
         E/23/336  -  S.M.D.S.B. Samarakoon  -  e23336@eng.pdn.ac.lk
         E/23/117  -  W.R.A.D.N. Gunathilake -  e23117@eng.pdn.ac.lk
-___
+_________________________________________________________________________
+
 ### File System Structure
     libtiny3d/
     ├── include/ # Header files
@@ -29,8 +30,8 @@ ___
     │ │ │ └── test_canvas.png 
     │ │ │ 
     │ │ ├── test_math/
-    │ │ │ ├── test_math.pgm
-    │ │ │ └── test_math.png 
+    │ │ │ ├── frame_*_*_*.pgm
+    │ │ │ └── frame_*_*_*.png 
     │ │ │
     │ │ └── test_pipeline/
     │ │   ├── test_pipeline_*.pgm
@@ -61,10 +62,13 @@ ___
     │ └── Group88_report.pdf
     │ 
     ├── Makefile
-    ├── pgm_to_png.py
-    ├── pgm_to_gif_mp4.py
+    ├── demo_gif_mp4.py
+    ├── test_canvas_png.py
+    ├── test_math_png.py
+    ├── test_pipeline_gif_mp4.py
+    ├── soccer.obj
     └── README.md
-___
+_________________________________________________________________________
 
 ## Build Instructions
 
@@ -84,16 +88,15 @@ They can be installed using:
 ```bash
 sudo apt update
 sudo apt install build-essential imagemagick
-
 pip install imageio numpy matplotlib, pillow
 ```
-___
+_________________________________________________________________________
 ## Build
 In the root of the project run the command:
 ```bash
 make
 ```
-___
+_________________________________________________________________________
 
 ## Run
 ### Demo
@@ -120,7 +123,7 @@ build/visual_tests/test_canvas/test_canvas.pgm
 ```
 This will output a PGM frame like:
 ```bash
-build/visual_tests/test_math/test_math.pgm
+build/visual_tests/test_math/frame_*_*_*.pgm
 ```
 ### Pipeline test
 ```bash
@@ -130,7 +133,8 @@ This will output PGM frames like:
 ```bash
 build/visual_tests/test_pipeline/test_pipeline_*.pgm
 ```
-___
+_________________________________________________________________________
+
 ## View Output of the Demo 
 Generate `.mp4` and `.gif` files to view the output.
 
@@ -148,6 +152,7 @@ build/main.mp4
 ```
 ## VIew the output of the tests
 Generate `.mp4` and `.gif` files to view the output using the python program we created:
+
 ### Canvas test
 in the root of the project:
 Run
@@ -180,12 +185,14 @@ The `.mp4` and `.gif` files will be generated like:
 tests/visual_tests/test_pipeline/test_pipeline.gif
 tests/visual_tests/test_pipeline/test_pipeline.mp4
 ```
-___
+_________________________________________________________________________
+
 ## Clean Build
 ```bash
 make clean
 ```
-___
+_________________________________________________________________________
+
 ## Features
 ### Task 1: Canvas & Line Drawing
 - Floating-point precision canvas
@@ -214,7 +221,7 @@ The output `.gif` and `.mp4` files demonstrate:
 - Line precision and thickness of the wireframes
 - 3D transforms of a octahedron and a soccer ball on the canvas
 - Lighting and Bézier animations applied in the movements of the objects
-___
+_________________________________________________________________________
 
 ## AI Tool Usage
 ChatGPT was used as helping agent for:

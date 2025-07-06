@@ -1,5 +1,6 @@
 #include "../include/animation.h"
 
+// besier points are created to make a smooth bezier curve
 vec3_t vec3_bezier(vec3_t p0, vec3_t p1, vec3_t p2, vec3_t p3, float t) {
     float u = 1 - t;
     vec3_t a = vec3_scale(p0, u * u * u);

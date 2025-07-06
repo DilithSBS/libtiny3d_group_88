@@ -209,6 +209,7 @@ _________________________________________________________________________
 - 3D to 2D projection
 - Circular viewport clipping
 - Depth-sorted wireframe rendering
+- Quaternion rotations to avoid rotation bugs like Gimbal lock
 - Soccer ball wireframe (truncated icosahedron)
 
 ### Task 4: Lighting & Animation
@@ -225,10 +226,12 @@ _________________________________________________________________________
 
 ## AI Tool Usage
 ChatGPT was used as helping agent for:
-- Making header files
+- Making header files accurately.
 - Clarifying mathematical logics
-- Making a soccer ball out of and `.obj` file
+- Making a soccer ball out of an object file
 - Debugging codes
-- Structuring code and documentation
+- Structuring code
 
-Final implementation and testing were done manually with full understanding.
+Since we did not have any knowledge about 3D transformations and pixel manipulation, we had to use AI a lot. But as we worked on this project, now we have a good understanding about concepts like **Bilinear Filtering, DDA Algorithm, Quaternion rotations, Bezier Curves, Lambert lighting**
+
+Final implementation and testing were done manually by us with full understanding.

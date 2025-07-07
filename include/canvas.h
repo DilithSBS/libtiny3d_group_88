@@ -1,3 +1,12 @@
+/*
+    All the functions related to canvas are included here
+    canvas_create(), 
+    canvas_destroy(), 
+    set_pixel_f(), 
+    draw_line_f(), 
+    canvas_save_pgm()
+*/
+
 #ifndef CANVAS_H
 #define CANVAS_H
 
@@ -17,7 +26,7 @@ void canvas_destroy(canvas_t* canvas);
 // Set a pixel with floating-point coordinates and intensity
 void set_pixel_f(canvas_t* canvas, float x, float y, float intensity);
 
-// Draw a floating-point line with thickness using DDA
+// Draw a floating-point line with thickness using DDA algorithm
 void draw_line_f(canvas_t* canvas, float x0, float y0, float x1, float y1, float thickness);
 
 // Save output to a .pgm file

@@ -1,3 +1,6 @@
+/*
+    All the functions related to mathematical concepts and logics are included here
+*/
 
 #ifndef MATH3D_H
 #define MATH3D_H
@@ -21,18 +24,31 @@ typedef struct {
 
 // ------------------ Vector Functions ------------------//
 
-void updateSph(vec3_t *v);                  // Cartesian → Spherical
-void updateCar(vec3_t *v);                  // Spherical → Cartesian
+void updateSph(vec3_t *v);      // Cartesian to Spherical coordinates
+void updateCar(vec3_t *v);      // Spherical to Cartesian coordinates
 
-// Converting degrees to
+// Converting degrees to radians
 float degToRad(float ang_deg);
 
+// Obtain the vector when the spherical coordinates are given
 vec3_t vec3_from_spherical(double r, double theta, double phi);
+
+// Normalising vector using fast inverse square root trick
 vec3_t vec3_normalize_fast(vec3_t v);
+
+// Function for smooth rotations and movements
 vec3_t vec3_slerp(vec3_t a, vec3_t b, double t);
+
+// Multiply a 3D vector by a scalar
 vec3_t vec3_scale(vec3_t v, float s);
+
+// Add two 3D vectors
 vec3_t vec3_add(vec3_t u, vec3_t v);
+
+// Substract two 3D vectors
 vec3_t vec3_sub(vec3_t u, vec3_t v);
+
+// Dot product of two 3D vectors
 float vec3_dot(vec3_t u, vec3_t v);
 
 
@@ -65,58 +81,26 @@ mat4 mat4_mul(mat4 a, mat4 b);
 // Multiply 4x4 matrix by a 4D vector
 vec4_t mat4_mul_vec4(mat4 m, vec4_t v);  // For vec4 transformation
 
-#endif
-=======
-#ifndef MATH3D_H
-#define MATH3D_H
 
-#include <stdio.h>
-#include <math.h>
-
-// ------------------ Vector Structures ------------------
-
-// Store 3D vectors
-typedef struct {
-    double x, y, z;         // As cartesian coordinates
-    double r, theta, phi;   // As spherical coordinates
-} vec3_t;
-
+//--------------------Quaternion rotation structure-----------------//
+// store 4D vectors
 typedef struct {
     float x, y, z, w;
-} vec4_t;
+} quat_t;
 
-// ------------------ Matrix Structure ------------------
+//--------------------Quaternion rotation functions-----------------//
 
-typedef struct {
-    float element[16]; // Column-major 4x4 matrix
-} mat4;
+// Create a quaternion from an axis-angle representation
+quat_t quat_from_axis_angle(vec3_t axis, float angle_rad);
 
-// ------------------ Matrix Functions ------------------
+// Normalize a quaternion to ensure it represent a valid rotation withouth any rotation bug
+quat_t quat_normalize(quat_t q);
 
-mat4 mat4_identity();
-mat4 mat4_translate(float tx, float ty, float tz);
-mat4 mat4_scale(float sx, float sy, float sz);
-mat4 mat4_rotate_xyz(float rx, float ry, float rz);
-mat4 mat4_frustum_asymetric(float left, float right, float bottom, float top, float near, float far);
-mat4 mat4_mul(mat4 a, mat4 b);
-vec4_t mat4_mul_vec4(mat4 m, vec4_t v);  // Add this for vec4 transformation
+// Interpolates between two quaternins using SLERP
+quat_t quat_slerp(quat_t a, quat_t b, float t);
 
-// ------------------ Vector Functions ------------------
-
-void updateSph(vec3_t *v);                  // Cartesian → Spherical
-void updateCar(vec3_t *v);                  // Spherical → Cartesian
-
-// Converting degrees to
-float degToRad(float ang_deg);
-
-vec3_t vec3_from_spherical(double r, double theta, double phi);
-vec3_t vec3_normalize_fast(vec3_t v);
-vec3_t vec3_slerp(vec3_t a, vec3_t b, double t);
-vec3_t vec3_scale(vec3_t v, float s);
-vec3_t vec3_add(vec3_t u, vec3_t v);
-vec3_t vec3_sub(vec3_t u, vec3_t v);
-float vec3_dot(vec3_t u, vec3_t v);
+// Convert a quaternion to 4x4 matrix
+mat4 quat_to_mat4(quat_t q);
 
 
 #endif
-

@@ -1,9 +1,8 @@
 /*
-
-# Task 2.2 Demo: Render a cube using 3D transforms and project to 2D canvas.
-
-# Output: grayscale image in build/cube.pgm
-
+    - This program was implemented to test if the math3D library is working properly
+    - A 3D cube is generated on the canvas and we can manualy change the rotation angles of it by changing "X_ROT", "Y_ROT" and "Z_ROT" in degrees.
+    - The output is generated as /tests/visual_tests/test_math/frame_*_*_*.pgm
+    - It can be converted into .png by running the make command "make convert-test-math-png" on the terminal or run the python program with rotation angles "python test_math_png.py X_ROT Y_ROT Z_ROT".
 */
 
 #include <stdio.h>
@@ -16,8 +15,8 @@
 #define HEIGHT 1600
 
 #define X_ROT 60.0
-#define Y_ROT 20.0
-#define Z_ROT 40.0
+#define Y_ROT 30.0
+#define Z_ROT 20.0
 
 #define ZOOM_SCALE 1000.0
 
@@ -75,7 +74,7 @@ int main() {
     }
     
     // Scaling the cube
-    mat4 scale = mat4_scale(1.0f, 1.0f, 1.0f);      // 3x larger cube
+    mat4 scale = mat4_scale(1.0f, 1.0f, 1.0f);      // 1x larger cube
     printf("Scaling: \n");
     mat4_print(scale);
 

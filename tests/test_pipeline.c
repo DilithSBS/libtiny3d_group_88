@@ -1,3 +1,11 @@
+/*
+    - This program was implemented to test if the rendering is working properly
+    - A 3D soccer ball is generated on the canvas loaded from an object file
+    - And it is rotated around x, y and z axes
+    - The output frames are generated as /tests/visual_tests/test_pipeline/test_pipeline_*.pgm
+    - These frams can be converted into .gif and .mp4 by running the make command "make convert-test-pipeline" on the terminal or run the python program "test_pipeline_gif_mp4.py".
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,10 +14,10 @@
 #include "../include/math3d.h"
 #include "../include/canvas.h"
 
-#define WIDTH 1600           // Canvas width
-#define HEIGHT 1600          // Canvas height
+#define WIDTH 400           // Canvas width
+#define HEIGHT 400          // Canvas height
 
-#define ZOOM_SCALE 400.0f   // Size scale of the cube
+#define ZOOM_SCALE 200.0f   // Size scale of the cube
 #define FRAME_COUNT 200     // Number of frames to complete the rotation
 
 #define MAX_VERTICES 2048

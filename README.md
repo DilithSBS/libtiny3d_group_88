@@ -59,6 +59,7 @@ _________________________________________________________________________
     │   └── main.gif
     │
     ├── documentation/ # Report and references
+    │ ├── Group88_project.mp4
     │ └── Group88_report.pdf
     │ 
     ├── Makefile
